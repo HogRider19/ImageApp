@@ -10,7 +10,8 @@ class BaseUser(BaseModel):
     username: str = Field(max_length=50)
     email: str = Field(max_length=100)
     registed_at: datetime.datetime
-    is_superuser: bool
+    is_active: bool = True
+    is_superuser: bool = False
     role_id: int | None
 
 class UserIn(BaseUser):
