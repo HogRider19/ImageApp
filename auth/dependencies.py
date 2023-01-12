@@ -17,7 +17,7 @@ def verify_password(raw_password: str, hashed_password: str) -> bool:
     """Проверяет соотвентсвие пароля и хэшированного-пароля"""
     return bcrypt.verify(raw_password, hashed_password)
 
-async def decode_token(token: str) -> int | None:
+def decode_token(token: str) -> int | None:
     """Расшифровывает jwt-токен и возвращает id пользователя"""
     pass
 
@@ -34,10 +34,10 @@ def get_user_by_username(username: str, db_session: Session) -> UserForDB | None
             role_id=user_db.role_id)
          
 
-async def get_user(token: str) -> UserForDB | None:
+def get_user(token: str) -> UserForDB | None:
     """Возвращающая схему пользователя по jwt-токену"""
     pass
 
-async def get_current_user(token: str = Depends(OAuth2PasswordBearer)) -> UserForDB | None:
+def get_current_user(token: str = Depends(OAuth2PasswordBearer)) -> UserForDB | None:
     """Зависимость, возвращающая схему текущего пользователя по jwt-токену"""
     pass
