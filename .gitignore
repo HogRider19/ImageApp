@@ -71,6 +71,7 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+.vscode
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is

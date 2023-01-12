@@ -11,7 +11,7 @@ class Role(Base):
     __tablename__ = 'roles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
+    name = Column(String(100), nullable=False)
 
 class User(Base):
     """Модель пользователя"""
@@ -19,8 +19,8 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
-    username = Column(String, unique=True, nullable=False)
-    email = Column(String, nullable=False)
+    username = Column(String(50), unique=True, nullable=False)
+    email = Column(String(100), nullable=False)
     hashed_password = Column(String, nullable=False)
     registed_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
     is_active = Column(Boolean, default=True, nullable=False)
