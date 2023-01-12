@@ -11,18 +11,18 @@ class BaseUser(BaseModel):
     email: str = Field(max_length=100)
     registed_at: datetime.datetime
     is_superuser: bool
-    role_id: int
+    role_id: int | None
 
-class UserIn(BaseModel):
+class UserIn(BaseUser):
     password: str = Field(min_length=8, max_length=30)
 
-class UserForDB(BaseModel):
+class UserForDB(BaseUser):
     hashed_password: str
 
     class Config:
         orm_mode = True
 
-class UserOut(BaseModel):
+class UserOut(BaseUser):
     pass
 
 class Token(BaseModel):

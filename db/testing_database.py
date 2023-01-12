@@ -16,7 +16,7 @@ engine = create_engine(SQLALCHEMY_TESTING_DATABASE_URL)
 
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base.metadata.create_all(engine=engine)
+Base.metadata.create_all(bind=engine)
 
 def get_testing_db():
     db_session = TestingSessionLocal()
@@ -27,5 +27,5 @@ def get_testing_db():
 
 client = None
 if get_db in app.dependency_overrides:
-    app.dependency_overrides[get_db, get_testing_db]
+    app.dependency_overrides[get_db] = get_testing_db
     client = TestClient(app)

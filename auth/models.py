@@ -25,4 +25,4 @@ class User(Base):
     registed_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
-    role_id = Column(Integer, ForeignKey('roles.id'))
+    role_id = Column(Integer, ForeignKey('roles.id'), nullable=True)
