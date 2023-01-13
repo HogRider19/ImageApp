@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 
 async def get_current_user(
-    token: str = Depends(OAuth2PasswordBearer),
+    token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)) -> UserForDB | None:
     """Зависимость, возвращающая схему текущего пользователя по jwt-токену"""
     credentials_exception = HTTPException(
