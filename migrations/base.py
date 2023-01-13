@@ -1,2 +1,3 @@
-from db.database import Base
 from auth.models import *
+from api.models import *
+from db.database import Base
