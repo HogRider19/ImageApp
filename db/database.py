@@ -21,7 +21,7 @@ def get_db():
     try:
         yield db_session
     except Exception as exc:
-        logger.error('%s', exc)
+        logger.info('%s', exc)
         raise exc
     finally:
         db_session.close()
