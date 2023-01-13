@@ -1,15 +1,11 @@
-from db.testing_database import client
-from auth.models import User
-from db.testing_database import TestingSessionLocal
-from auth.utils import get_user_by_username
-import datetime
 import pytest
-
 from fastapi import status
 
-from .fixtures import clean_users_db
+from auth.utils import get_user_by_username
+from db.testing_database import TestingSessionLocal, client
 
 from .data import test_user_template
+from .fixtures import clean_users_db
 
 
 def check_user_exist(username):
@@ -38,5 +34,7 @@ def test_fail_create_user(clean_users_db, replace_field):
     failed_test_user_template[replace_field[0]] = replace_field[1]
     response = client.post(url='/auth/createuser', json=failed_test_user_template)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert check_user_exist(failed_test_user_template['username']) == False
+
 
 

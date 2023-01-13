@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
 import datetime
+
+from pydantic import BaseModel, Field
 
 
 class Role(BaseModel):
@@ -19,10 +20,6 @@ class UserIn(BaseUser):
 
 class UserCreate(UserIn):
     password_repeat: str = Field(min_length=8, max_length=30)
-
-class UserDelete(BaseModel):
-    username: str = Field(max_length=50)
-    password: str = Field(min_length=8, max_length=30)
 
 class UserForDB(BaseUser):
     hashed_password: str

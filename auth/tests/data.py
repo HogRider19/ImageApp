@@ -6,7 +6,7 @@ from auth.models import User
 
 test_users = [
     User(
-        username='Tom',
+        username='Tomas',
         email='tom@gmail.com',
         hashed_password=get_hashed_password('tom1234'),
         registed_at=datetime.datetime.utcnow(),

@@ -28,7 +28,7 @@ def get_db_session():
     finally:
         session.close()
 
-@fixture(scope='package')
+@fixture(scope='function')
 def clean_users_db():
     yield
 
