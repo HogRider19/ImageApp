@@ -5,7 +5,8 @@ from auth.utils import (get_hashed_password, get_user_by_username,
                         verify_password)
 from db.testing_database import TestingSessionLocal
 
-from .fixtures import create_users, test_users
+from .fixtures import create_users
+from .data import test_users
 
 
 @pytest.mark.parametrize('password', [

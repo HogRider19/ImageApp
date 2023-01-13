@@ -18,3 +18,13 @@ test_users = [
         registed_at=datetime.datetime.utcnow(),
         is_superuser=True),
 ]
+
+test_user_template = {
+        "username": "testuser",
+        "email": "testuser@gamil.com",
+        "registed_at": "2023-01-13T14:37:15.479Z",
+        "is_active": True,
+        "is_superuser": False,
+        "role_id": 0,
+        "password": "supersecret",
+        "password_repeat": "supersecret"}

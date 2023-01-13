@@ -25,7 +25,5 @@ def get_testing_db():
     finally:
         db_session.close()
 
-client = None
-if get_db in app.dependency_overrides:
-    app.dependency_overrides[get_db] = get_testing_db
-    client = TestClient(app)
+app.dependency_overrides[get_db] = get_testing_db
+client = TestClient(app)

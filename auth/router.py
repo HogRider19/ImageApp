@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from db.database import get_db
 
-from .schemas import Token, UserForDB, UserOut, UserIn
+from .schemas import Token, UserForDB, UserOut, UserCreate, UserDelete
 from .utils import create_access_token, get_user_by_username, verify_password, get_hashed_password
 
 from .dependencies import get_curren_active_user
@@ -13,18 +13,19 @@ from .models import User
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
 
-@auth_router.post('/createuser', response_model=UserOut)
-async def create_user(user: UserIn, db: Session = Depends(get_db)):
+@auth_router.post('/createuser', response_model=UserOut,
+                    status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    if user.password != user.password_repeat:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Passwords do not match')
     db.add(User(
         username=user.username,
         email=user.email,
         hashed_password=get_hashed_password(user.password)))
     db.commit()
     return user
-
-@auth_router.delete('/deleteuser')
-async def delete_user():
-    pass
 
 @auth_router.post('/login', response_model=Token)
 async def login(

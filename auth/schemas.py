@@ -7,7 +7,7 @@ class Role(BaseModel):
     name: str
 
 class BaseUser(BaseModel):
-    username: str = Field(max_length=50)
+    username: str = Field(min_length=4, max_length=50)
     email: str = Field(max_length=100)
     registed_at: datetime.datetime
     is_active: bool = True
@@ -15,6 +15,13 @@ class BaseUser(BaseModel):
     role_id: int | None
 
 class UserIn(BaseUser):
+    password: str = Field(min_length=8, max_length=30)
+
+class UserCreate(UserIn):
+    password_repeat: str = Field(min_length=8, max_length=30)
+
+class UserDelete(BaseModel):
+    username: str = Field(max_length=50)
     password: str = Field(min_length=8, max_length=30)
 
 class UserForDB(BaseUser):
