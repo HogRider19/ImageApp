@@ -17,6 +17,8 @@ SECRET_JWT = os.getenv('secret_jwt')
 ALGORITHM_JWT = os.getenv('algorithm_jwt', 'HS256')
 TOKEN_LIFETIME_MINUTES = int(os.getenv('token_lifetime_minutes', '30'))
 
+MEDIA_BASE_DIR = 'media/'
+
 LOGGING_CONFIG = { 
     'version': 1,
     'disable_existing_loggers': True,

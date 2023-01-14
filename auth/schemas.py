@@ -22,6 +22,7 @@ class UserCreate(UserIn):
     password_repeat: str = Field(min_length=8, max_length=30)
 
 class UserForDB(BaseUser):
+    id: int
     hashed_password: str
 
     class Config:

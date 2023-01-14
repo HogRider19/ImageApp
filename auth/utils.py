@@ -23,6 +23,7 @@ def get_user_by_username(username: str, db_session: Session) -> UserForDB | None
     user_db = db_session.query(User).filter(User.username == username).first()
     if user_db: 
         return UserForDB(
+            id=user_db.id,
             username = user_db.username,
             email=user_db.email,
             hashed_password=user_db.hashed_password,

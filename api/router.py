@@ -28,8 +28,9 @@ async def load_image(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             detail='Content type must be jpeg or png')
 
-    backgroundtasks.add_task(save_image, image_file=image_file, db=db)
-    return ImageInfo
+    backgroundtasks.add_task(save_image, image_file, image_info, user, db)
+
+    return image_info
 
 
 @api_router.post('image/{image_id}')

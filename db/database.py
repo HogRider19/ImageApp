@@ -1,5 +1,5 @@
 from config.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, DB_DRIVER
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from config.logging import get_logger
