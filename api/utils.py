@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 from fastapi import UploadFile
 from uuid import uuid4
-from .schemas import ImageInfo
+from .schemas import ImageInfo, ImageForDb
 from auth.schemas import UserForDB
 from config.config import MEDIA_BASE_DIR
 from .models import Image
 import aiofiles
 import os
-
+from auth.utils import get_user_by_username
 
 
 async def save_image(
@@ -36,3 +36,16 @@ async def save_image(
 
     db.add(image_db)
     db.commit()
+
+def get_image_info_by_id(id: int, db: Session) -> ImageForDb | None:
+    """Возвращает информацию о картинке по ее id"""
+    image = db.query(Image).get(id)
+    if image:
+        return ImageForDb(
+            id=image.id,
+            title=image.title,
+            description=image.description,
+            created_at=image.created_at,
+            path=image.path,
+            liks=image.liks,
+        )

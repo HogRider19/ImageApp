@@ -1,14 +1,21 @@
 from fastapi import (APIRouter, BackgroundTasks, File, Form, HTTPException,
                      UploadFile, status, Depends)
 
-from .schemas import ImageInfo
-from .utils import save_image
+from .schemas import ImageInfo, ImageForDb
+from .utils import save_image, get_image_info_by_id
 
 from db.database import get_db
 from sqlalchemy.orm import Session
 
 from auth.dependencies import get_curren_active_user
 from auth.schemas import UserForDB
+
+from .models import Image
+
+from config.logging import get_logger
+
+
+logger = get_logger(__name__)
 
 
 api_router = APIRouter(tags=['images'])
@@ -17,7 +24,7 @@ api_router = APIRouter(tags=['images'])
 async def load_image(
     backgroundtasks: BackgroundTasks,
     title: str = Form(max_length=100),
-    desc: str = Form(max_length=1000),
+    desc: str = Form(default=None, max_length=1000),
     image_file: UploadFile = File(...),
     user: UserForDB = Depends(get_curren_active_user),
     db: Session = Depends(get_db),
@@ -33,6 +40,15 @@ async def load_image(
     return image_info
 
 
-@api_router.post('image/{image_id}')
-def get_iamge(image_id: int):
-    pass
+@api_router.get('/image/{image_id}')
+def get_iamge_info(
+    image_id: int,
+    db: Session = Depends(get_db),
+    user: UserForDB = Depends(get_curren_active_user)
+):  
+    image_info = get_image_info_by_id(image_id, db)
+    if not image_info:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Image with id-{image_id} does not exist")
+
+    return image_info
