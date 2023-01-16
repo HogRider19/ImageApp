@@ -9,7 +9,6 @@ class Role(BaseModel):
 
 class BaseUser(BaseModel):
     username: str = Field(min_length=4, max_length=50)
-    email: str = Field(max_length=100)
     registed_at: datetime.datetime
     is_active: bool = True
     is_superuser: bool = False
@@ -17,18 +16,20 @@ class BaseUser(BaseModel):
 
 class UserIn(BaseUser):
     password: str = Field(min_length=8, max_length=30)
-
-class UserCreate(UserIn):
-    password_repeat: str = Field(min_length=8, max_length=30)
+    email: str = Field(max_length=100)
 
 class UserForDB(BaseUser):
     id: int
+    email: str = Field(max_length=100)
     hashed_password: str
 
     class Config:
         orm_mode = True
 
 class UserOut(BaseUser):
+    pass
+
+class UserCreate(UserIn):
     pass
 
 class Token(BaseModel):

@@ -19,6 +19,8 @@ TOKEN_LIFETIME_MINUTES = int(os.getenv('token_lifetime_minutes', '30'))
 
 MEDIA_BASE_DIR = 'media/'
 
+TESTING_MEDIA_BASE_DIR = f"{MEDIA_BASE_DIR}testing/" 
+
 LOGGING_CONFIG = { 
     'version': 1,
     'disable_existing_loggers': True,

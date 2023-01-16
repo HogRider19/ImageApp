@@ -1,8 +1,9 @@
-from db.database import Base
-from auth.models import User
-from sqlalchemy import Integer, String, ForeignKey, Column, TIMESTAMP
-from sqlalchemy.orm import relationship
 import datetime
+
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
+
+from db.database import Base
 
 
 class Image(Base):
@@ -16,3 +17,5 @@ class Image(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     liks = Column(Integer, default=0, nullable=False)
     created_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
+
+    user = relationship('User')

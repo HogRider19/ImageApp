@@ -26,5 +26,4 @@ test_user_template = {
         "is_active": True,
         "is_superuser": False,
         "role_id": 0,
-        "password": "supersecret",
-        "password_repeat": "supersecret"}
+        "password": "supersecret",}

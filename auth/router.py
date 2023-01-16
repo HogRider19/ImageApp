@@ -16,10 +16,6 @@ auth_router = APIRouter(prefix='/auth', tags=['auth'])
 @auth_router.post('/createuser', response_model=UserOut,
                     status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    if user.password != user.password_repeat:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Passwords do not match')
     db.add(User(
         username=user.username,
         email=user.email,

@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
-from auth.schemas import UserOut
 import datetime
+
+from pydantic import BaseModel
+
+from auth.schemas import UserOut
 
 
 class BaseImage(BaseModel):
@@ -15,6 +17,7 @@ class ImageForDb(BaseImage):
     created_at: datetime.datetime
     liks: int
     path: str
+    user: UserOut
 
 class ImageInfo(BaseImage):
     pass
