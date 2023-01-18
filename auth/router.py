@@ -16,6 +16,12 @@ auth_router = APIRouter(prefix='/auth', tags=['auth'])
 @auth_router.post('/createuser', response_model=UserOut,
                     status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    username_db = db.query(User.username).filter(
+                        User.username==user.username).first()
+    if username_db is not None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                             detail='This username is already taken')
+
     db.add(User(
         username=user.username,
         email=user.email,
