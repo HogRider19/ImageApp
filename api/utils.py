@@ -59,11 +59,18 @@ def get_image_info_by_id(id: int, db: Session) -> ImageForDb | None:
     if image:
         return convert_image_model(image)
 
+def get_popular_images_from_db(
+    limit: int,
+    offset: int,
+    db: Session
+) -> list[ImageForDb]:
+    images_db = db.query(Image).limit(limit).offset(offset).all()
+    return [convert_image_model(image_db) for image_db in images_db] 
+
 def convert_image_model(image) -> ImageForDb:
     user_db = image.user
     user = UserOut(
         username = user_db.username,
-        email=user_db.email,
         registed_at=user_db.registed_at,
         is_superuser=user_db.is_superuser,
         role_id=user_db.role_id)
@@ -74,6 +81,5 @@ def convert_image_model(image) -> ImageForDb:
         description=image.description,
         created_at=image.created_at,
         path=image.path,
-        liks=image.liks,
         user=user,)
 

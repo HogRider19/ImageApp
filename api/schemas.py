@@ -15,7 +15,6 @@ class BaseImage(BaseModel):
 class ImageForDb(BaseImage):
     id: int
     created_at: datetime.datetime
-    liks: int
     path: str
     user: UserOut
 

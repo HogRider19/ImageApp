@@ -1,7 +1,7 @@
 import os
 
 from fastapi import (APIRouter, BackgroundTasks, Depends, File, Form,
-                     HTTPException, UploadFile, status)
+                     HTTPException, UploadFile, Query, status)
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
@@ -11,11 +11,12 @@ from config.config import MEDIA_BASE_DIR
 from config.logging import get_logger
 from db.database import get_db
 
-from .schemas import ImageInfo, ImageForDb
-from .utils import delete_image_completely, get_image_info_by_id, save_image, get_user_images
+from .schemas import ImageForDb, ImageInfo
+from .utils import (delete_image_completely, get_image_info_by_id,
+                    get_user_images, save_image, get_popular_images_from_db)
+
 
 logger = get_logger(__name__)
-
 
 api_router = APIRouter(tags=['images'])
 
@@ -92,5 +93,15 @@ def get_image(
     with open(file_path, mode='rb') as file:
         raw_image = file.read()
     return Response(content=raw_image, media_type='image/jpeg')
+
+@api_router.get('/image/popular', response_model=list[ImageForDb])
+def get_popular_images(
+    limit: int = Query(default=10, gt=0),
+    offset: int = Query(default=0, gt=0),
+    db: Session = Depends(get_db),
+    user: UserForDB = Depends(get_curren_active_user)
+):
+    images = get_popular_images_from_db(limit, offset, db)
+    return images
 
 
