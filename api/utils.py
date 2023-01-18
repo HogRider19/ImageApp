@@ -49,8 +49,14 @@ def delete_image_completely(image: ImageForDb, db: Session) -> None:
     db.delete(image_db)
     db.commit()
 
-def get_user_images(user: UserForDB, db: Session) -> list[ImageForDb]:
-    images_db = db.query(Image).filter(Image.user_id==user.id).all()
+def get_user_images(
+    user: UserForDB,
+    db: Session,
+    limit: int,
+    offset: int,    
+) -> list[ImageForDb]:
+    images_db = db.query(Image).filter(Image.user_id==user.id)\
+                            .limit(limit).offset(offset).all()
     return [convert_image_model(image_db) for image_db in images_db]
 
 def get_image_info_by_id(id: int, db: Session) -> ImageForDb | None:

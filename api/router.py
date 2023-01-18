@@ -57,9 +57,18 @@ def delete_image(
     delete_image_completely(image_info, db)
     return image_info
 
+@api_router.get('/image/popular', response_model=list[ImageForDb])
+def get_popular_images(
+    limit: int = Query(default=10, gt=0),
+    offset: int = Query(default=0, ge=0),
+    db: Session = Depends(get_db),
+    user: UserForDB = Depends(get_curren_active_user),
+):
+    images = get_popular_images_from_db(limit, offset, db)
+    return images
 
 @api_router.get('/image/{image_id}', response_model=ImageForDb)
-def get_iamge_info(
+def get_image_info(
     image_id: int,
     db: Session = Depends(get_db),
     user: UserForDB = Depends(get_curren_active_user)
@@ -73,10 +82,12 @@ def get_iamge_info(
 
 @api_router.get('/images/my')
 def get_my_images(
+    limit: int = Query(default=10, gt=0),
+    offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
     user: UserForDB = Depends(get_curren_active_user),
 ):
-    return get_user_images(user, db)
+    return get_user_images(user, db, limit, offset)
 
 @api_router.get('/media/{username}/{image_name}')
 def get_image(
@@ -94,14 +105,5 @@ def get_image(
         raw_image = file.read()
     return Response(content=raw_image, media_type='image/jpeg')
 
-@api_router.get('/image/popular', response_model=list[ImageForDb])
-def get_popular_images(
-    limit: int = Query(default=10, gt=0),
-    offset: int = Query(default=0, gt=0),
-    db: Session = Depends(get_db),
-    user: UserForDB = Depends(get_curren_active_user)
-):
-    images = get_popular_images_from_db(limit, offset, db)
-    return images
 
 
