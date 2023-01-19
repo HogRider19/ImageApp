@@ -20,8 +20,6 @@ app.include_router(api_router)
 def startup_event():
     if not os.path.exists(MEDIA_BASE_DIR):
         os.mkdir(MEDIA_BASE_DIR)
-    if not os.path.exists(TESTING_MEDIA_BASE_DIR):
-        os.mkdir(TESTING_MEDIA_BASE_DIR)
 
 
 

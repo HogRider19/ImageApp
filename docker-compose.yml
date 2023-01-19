@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:15.1
+    container_name: postgres-imageapp-cont
+    env_file:
+      - ./.env
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: bash -c "alembic upgrade head && uvicorn main:app"
+    container_name: imageapp
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
