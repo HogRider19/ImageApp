@@ -55,6 +55,7 @@ def get_user_images(
     limit: int,
     offset: int,    
 ) -> list[ImageForDb]:
+    """Возвращает информацию о картинках пользователя"""
     images_db = db.query(Image).filter(Image.user_id==user.id)\
                             .limit(limit).offset(offset).all()
     return [convert_image_model(image_db) for image_db in images_db]
@@ -70,10 +71,17 @@ def get_popular_images_from_db(
     offset: int,
     db: Session
 ) -> list[ImageForDb]:
+    """Возвращает набор популярных картинок"""
     images_db = db.query(Image).limit(limit).offset(offset).all()
     return [convert_image_model(image_db) for image_db in images_db] 
 
+def get_limit_offset(page: int, page_size: int) -> tuple[int, int]:
+    offset = page * page_size
+    limit = offset + page_size
+    return (limit, offset)
+
 def convert_image_model(image) -> ImageForDb:
+    """Преобразовывает объект модели image в схему pydanic"""
     user_db = image.user
     user = UserOut(
         username = user_db.username,

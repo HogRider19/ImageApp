@@ -1,7 +1,6 @@
 import datetime
 
 from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
 
 from db.database import Base
 
@@ -27,5 +26,3 @@ class User(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
     role_id = Column(Integer, ForeignKey('roles.id'), nullable=True)
-
-    # images = relationship('images', back_populates="user_images")

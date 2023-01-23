@@ -1,8 +1,8 @@
 import os
 
 from fastapi import (APIRouter, BackgroundTasks, Depends, File, Form,
-                     HTTPException, UploadFile, Query, status)
-from fastapi.responses import Response, FileResponse
+                     HTTPException, Query, UploadFile, status)
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from auth.dependencies import get_curren_active_user
@@ -13,8 +13,8 @@ from db.database import get_db
 
 from .schemas import ImageForDb, ImageInfo
 from .utils import (delete_image_completely, get_image_info_by_id,
-                    get_user_images, save_image, get_popular_images_from_db)
-
+                    get_limit_offset, get_popular_images_from_db,
+                    get_user_images, save_image)
 
 logger = get_logger(__name__)
 
@@ -59,12 +59,13 @@ def delete_image(
 
 @api_router.get('/image/popular', response_model=list[ImageForDb])
 def get_popular_images(
-    limit: int = Query(default=10, gt=0),
-    offset: int = Query(default=0, ge=0),
+    page: int = Query(default=0, ge=0),
+    page_size: int = Query(default=10, gt=0, lt=100),
     db: Session = Depends(get_db),
     user: UserForDB = Depends(get_curren_active_user),
-):
-    images = get_popular_images_from_db(limit, offset, db)
+):  
+    limit, offset = get_limit_offset(page, page_size)
+    images = get_popular_images_from_db(limit, offset,  db)
     return images
 
 @api_router.get('/image/{image_id}', response_model=ImageForDb)
@@ -80,13 +81,14 @@ def get_image_info(
 
     return image_info
 
-@api_router.get('/images/my')
+@api_router.get('/images/my', response_model=list[ImageForDb])
 def get_my_images(
-    limit: int = Query(default=10, gt=0),
-    offset: int = Query(default=0, ge=0),
+    page: int = Query(default=0, ge=0),
+    page_size: int = Query(default=10, gt=0, lt=100),
     db: Session = Depends(get_db),
     user: UserForDB = Depends(get_curren_active_user),
 ):
+    limit, offset = get_limit_offset(page, page_size)
     return get_user_images(user, db, limit, offset)
 
 @api_router.get('/media/{username}/{image_name}', response_class=FileResponse)

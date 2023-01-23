@@ -1,12 +1,13 @@
-from config.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, DB_DRIVER
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+
+from config.config import (DB_DRIVER, DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT,
+                           DB_USER)
 from config.logging import get_logger
 
 
 logger = get_logger(__name__)
-
 
 SQLALCHEMY_DATABASE_URL = f"postgresql+{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}{DB_PORT}/{DB_NAME}"
 
