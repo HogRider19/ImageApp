@@ -1,4 +1,4 @@
-.env
+.env.example
 .env.dev
 .venv
 env/
@@ -6,8 +6,6 @@ venv/
 ENV/
 env.bak/
 
-dist
-db.sqlite3
 
 __pycache__/
 */__pycache__/
@@ -17,8 +15,6 @@ __pycache__/
 
 !*media/.gitkeep
 media/*
-
-secret_keys.py
 
 log/debug.log
 

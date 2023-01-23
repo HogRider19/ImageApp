@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from auth.router import auth_router
 from api.router import api_router
-from config.config import MEDIA_BASE_DIR, TESTING_MEDIA_BASE_DIR, DEBUG
+from config.config import MEDIA_BASE_DIR
 import os
 from config.logging import get_logger
 

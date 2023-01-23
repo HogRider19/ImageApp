@@ -2,7 +2,7 @@ import os
 
 from fastapi import (APIRouter, BackgroundTasks, Depends, File, Form,
                      HTTPException, UploadFile, Query, status)
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
 from sqlalchemy.orm import Session
 
 from auth.dependencies import get_curren_active_user
@@ -89,7 +89,7 @@ def get_my_images(
 ):
     return get_user_images(user, db, limit, offset)
 
-@api_router.get('/media/{username}/{image_name}')
+@api_router.get('/media/{username}/{image_name}', response_class=FileResponse)
 def get_image(
     username: str,
     image_name: str,
@@ -101,9 +101,8 @@ def get_image(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Invalid image path")
 
-    with open(file_path, mode='rb') as file:
-        raw_image = file.read()
-    return Response(content=raw_image, media_type='image/jpeg')
+    return FileResponse(path=file_path, media_type='image/jpeg')
+
 
 
 

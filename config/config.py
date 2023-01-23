@@ -1,14 +1,16 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
+env_file_path = os.getenv('env_file_path', None)
 
-DB_USER = os.getenv('db_user')
-DB_PASSWORD = os.getenv('db_password')
+load_dotenv(dotenv_path=env_file_path)
+
+DB_USER = os.getenv('db_user', 'postgres')
+DB_PASSWORD = os.getenv('db_password', 'postgres')
 DB_HOST = os.getenv('db_host')
-DB_PORT = os.getenv('db_port')
-DB_NAME = os.getenv('db_name')
+DB_PORT = os.getenv('db_port', '')
+DB_NAME = os.getenv('db_name', 'postgres')
 DB_DRIVER = os.getenv('db_driver', 'psycopg2')
 
 TESTING_DB_NAME = os.getenv('testing_db_name', 'testing_db')
@@ -18,6 +20,8 @@ ALGORITHM_JWT = os.getenv('algorithm_jwt', 'HS256')
 TOKEN_LIFETIME_MINUTES = int(os.getenv('token_lifetime_minutes', '30'))
 
 MEDIA_BASE_DIR = 'media/'
+
+DB_PORT = f":{DB_PORT}" if DB_PORT and DB_PORT[0] != ':' else DB_PORT
 
 LOGGING_CONFIG = { 
     'version': 1,
