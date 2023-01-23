@@ -38,18 +38,10 @@ LOGGING_CONFIG = {
             'class': 'logging.StreamHandler',
             'stream': 'ext://sys.stdout',  # Default is stderr
         },
-        'file_handler': { 
-            'level': 'INFO',
-            'formatter': 'standard',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/logs.log',
-            'mode': 'a',
-            'encoding': 'utf8',
-        },
     },
     'loggers': { 
         '': { 
-            'handlers': ['file_handler'],
+            'handlers': ['stremm_handler'],
             'level': 'WARNING',
             'propagate': False
         },
